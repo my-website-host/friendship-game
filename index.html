@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Friendship Run 👩‍⚕️🦊🐰</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- 📺 Retro Arcade Game Fullscreen Console -->
+  <div id="app-container">
+
+    <!-- 🔊 Audio Mute Control -->
+    <button class="audio-btn" id="audio-toggle" title="Toggle Sound">🔊</button>
+
+    <!-- 🏠 Quit Control -->
+    <button class="quit-btn" id="btn-quit" title="Quit to Menu" style="display: none;">QUIT ↩️</button>
+
+    <!-- 🌌 Twinkling Parallax Game Viewport -->
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- HUD Overlay prompt for jumping -->
+    <div class="hud-tips" id="hud-tips" style="display: none;">Press SPACE or Tap to Jump</div>
+
+    <!-- ☄️ Visual Arcade THROW Button for weapon launch -->
+    <button class="arcade-throw-btn" id="btn-arcade-throw" style="display: none;" title="Throw Ninja Star (SHIFT)">✴️
+      THROW</button>
+
+    <!-- 🖼️ Screen 1: Simple Light Retro Menu -->
+    <div id="landing-screen">
+      <div class="game-header">
+        <h1 class="game-title">The Friendship Run</h1>
+        <div class="game-subtitle">✨ A Birthday Adventure for Riya ✨</div>
+      </div>
+
+      <!-- Catchy Centered Text Description -->
+      <div class="game-description">
+        Run through a scrolling landscape of our shared memories! Avoid the daily exam spikes, answer the friendship
+        quizzes along the way, and unlock a special surprise birthday letter at the end.
+      </div>
+
+      <div class="landing-actions">
+        <button class="retro-btn" id="btn-intro-start">Start Adventure 🚀</button>
+        <button class="retro-btn alt-btn" id="btn-how-to-play">How to Play 📖</button>
+      </div>
+    </div>
+
+    <!-- 👤 Screen 2: Character Selection Popup Modal Overlay -->
+    <div id="char-modal-overlay">
+      <div class="char-modal-box">
+        <h2 class="char-modal-header">Choose Your Runner</h2>
+
+        <div class="character-grid">
+          <!-- Riya (Dentist/Doctor) -->
+          <div class="char-card selected" data-id="riya">
+            <div class="char-emoji">👩‍⚕️</div>
+            <div class="char-name">Riya</div>
+          </div>
+
+          <!-- Friend 1 (Fox) -->
+          <div class="char-card" data-id="me">
+            <div class="char-emoji">🦊</div>
+            <div class="char-name">Utsav</div>
+          </div>
+
+          <!-- Friend 2 (Bunny) -->
+          <div class="char-card" data-id="nishthi">
+            <div class="char-emoji">🐰</div>
+            <div class="char-name">Nishthi</div>
+          </div>
+        </div>
+
+        <div class="char-modal-actions">
+          <button class="retro-btn" id="btn-char-confirm">Select & Run 🏃‍♂️</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 📖 Screen 6: How to Play Overlay Modal -->
+    <div id="howto-modal-overlay">
+      <div class="howto-modal-box">
+        <h2 class="howto-modal-header">How to Play & Controls 🎮</h2>
+
+        <div class="howto-scroll-body">
+          <div class="howto-section">
+            <h3>🏃‍♂️ Movement & Jumps</h3>
+            <p>Press <strong>SPACE</strong>, <strong>Arrow Up (↑)</strong>, or <strong>click/tap the screen</strong> to
+              jump. Tap again mid-air to <strong>Double Jump</strong>!</p>
+          </div>
+
+          <div class="howto-section">
+            <h3>✴️ Weapon Support</h3>
+            <p>Press <strong>SHIFT</strong> (or F, X, Enter) or tap the red <strong>THROW button</strong> on screen to
+              throw a Ninja Star. Use it to shatter standard hazard blocks!</p>
+          </div>
+
+          <div class="howto-section">
+            <h3>💖 Health & Lives</h3>
+            <p>You have <strong>3 lives</strong>. Hitting a regular hazard block costs 1 life and gives you 1.5 seconds
+              of flashing invulnerability. Don't run out of lives!</p>
+          </div>
+
+          <div class="howto-section">
+            <h3>🎁 Collectibles & Power-ups</h3>
+            <div class="howto-items-grid">
+              <div class="howto-item"><span class="item-emoji">❤️</span> <strong>Heart:</strong> +1 Life (max 3)</div>
+              <div class="howto-item"><span class="item-emoji">✴️</span> <strong>Star:</strong> +1 Ammo (max 4)</div>
+              <div class="howto-item"><span class="item-emoji">🧲</span> <strong>Magnet:</strong> Automatically attracts
+                the next 2 memory treasures!</div>
+            </div>
+          </div>
+
+          <div class="howto-section">
+            <h3>🏆 Main Objective</h3>
+            <p>Guide the chosen runner through a timeline of <strong>shared memories</strong>. You MUST collect
+              <strong>every single memory treasure</strong> along the run to unlock and open the final birthday surprise
+              gift at the checkered finish line! If you miss even one, the vault stays locked!</p>
+          </div>
+        </div>
+
+        <div class="howto-modal-actions">
+          <button class="retro-btn" id="btn-howto-close">Got It! 👍</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 💀 Game Over Summary Panel -->
+    <div id="gameover-screen">
+      <h2 class="go-title">Game Over!</h2>
+      <div class="go-stats" id="go-stats">
+        Distance Covered: <span class="go-highlight" id="go-score">0</span> points<br>
+        Trio Record: <span id="go-high">0</span> points
+      </div>
+      <button class="retro-btn" id="btn-restart">Retry Run 🔄</button>
+    </div>
+
+    <!-- 🖼️ Screen 3: Retro Memory Story & Quiz Card Overlay -->
+    <div id="memory-overlay">
+      <div class="memory-card funny" id="memory-card">
+        <div class="mc-header">
+          <span class="mc-emoji" id="mc-emoji">☕</span>
+          <span class="mc-title" id="mc-title">Memory #1</span>
+        </div>
+        <div class="mc-body">
+          <!-- Optional Image Viewport (Big Perfect Square) -->
+          <div class="mc-image-container" id="mc-image-container" style="display: none;">
+            <img id="mc-image" src="" alt="Memory Image">
+          </div>
+
+          <div class="mc-story" id="mc-story">Story text goes here.</div>
+
+          <div class="mc-question" id="mc-question" style="display: none;">Question text?</div>
+          <div class="mc-options-grid" id="mc-options-grid" style="display: none;">
+            <!-- Buttons dynamically generated -->
+          </div>
+
+          <div class="mc-reaction-box" id="mc-reaction-box" style="display: none;">
+            Reaction text.
+          </div>
+        </div>
+        <div class="mc-footer">
+          <button class="retro-btn" id="btn-mc-continue" style="display: none;">Keep Running 🚀</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 📜 Screen 4: Mission Briefing Overlay -->
+    <div id="mission-briefing-overlay">
+      <div class="mission-briefing-box">
+        <h2 class="briefing-header">🚀 Mission Briefing</h2>
+        <div class="briefing-body">
+          <div class="briefing-emoji" id="briefing-char-emoji">👩‍⚕️</div>
+          <p id="briefing-text">Hey Riya! You have 22 treasures to find. If you are able to find them all, you will win!
+            Let's go!</p>
+        </div>
+        <button class="retro-btn" id="btn-briefing-start">Let's Run! 🏃‍♂️</button>
+      </div>
+    </div>
+
+    <!-- 🎁 Screen 5: Birthday Grand Finale Present Selection & Letter -->
+    <div id="birthday-finale-overlay">
+      <div class="finale-box">
+
+        <!-- Part A: Present Selection Grid -->
+        <div id="gift-selection-view">
+          <h2 class="finale-header">🎁 The Birthday Vault Unlocked!</h2>
+          <p class="finale-desc">You collected all 22 treasures and crossed the finish line! Open your special present
+            below:</p>
+          <div class="single-gift-container">
+            <div class="gift-box single-gift" data-id="special">
+              <div class="gift-wrap">🎁</div>
+              <div class="gift-tag">Open Birthday Gift ✨</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Part B: Letter View (Hidden until a box is opened) -->
+        <div id="letter-view" style="display: none;">
+          <h2 class="finale-header" id="letter-header">🎂 Happy Birthday!</h2>
+          <div class="birthday-letter-container" id="letter-content">
+            <!-- Dynamically populated in memory.js -->
+          </div>
+          <button class="retro-btn" id="btn-finale-restart">Play Again 🔄</button>
+        </div>
+
+        <!-- Part C: Locked View (Shown if memories were missed) -->
+        <div id="locked-view" style="display: none;">
+          <h2 class="finale-header" style="color: #ff4757;">🔒 Vault Remains Locked!</h2>
+          <p class="finale-desc">You crossed the finish line, but some memories were forgotten in the rush.</p>
+          <div class="briefing-body" style="margin-top: 15px; margin-bottom: 25px;">
+            <div class="briefing-emoji">😢</div>
+            <p id="locked-status-text">Oh no, Riya! You only collected <strong>15 out of 22</strong> treasures.</p>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 10px;">We must remember every single detail
+              of our 6-year friendship—the Jitesh Sir topper rivalry, the Danny's ring pastries, the Vadodara Navratri
+              drop-out! Run again and grab them all! 💖</p>
+          </div>
+          <button class="retro-btn" id="btn-locked-restart">Try Again 🔄</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 📦 Sequential Script Loads (Avoids CORS errors when double-clicked locally) -->
+  <script src="js/config.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/sprite.js"></script>
+  <script src="js/memory.js"></script>
+  <script src="js/game.js"></script>
+
+  <!-- 🔌 Glue Script: Connects DOM elements and UI triggers to the Canvas Engine -->
+  <script>
+    window.addEventListener('load', () => {
+      // 1. Initialize Game Engine
+      GAME.init('gameCanvas');
+
+      const landingScreen = document.getElementById('landing-screen');
+      const charModalOverlay = document.getElementById('char-modal-overlay');
+      const gameOverScreen = document.getElementById('gameover-screen');
+
+      const introStartBtn = document.getElementById('btn-intro-start');
+      const charConfirmBtn = document.getElementById('btn-char-confirm');
+      const restartBtn = document.getElementById('btn-restart');
+
+      const audioToggle = document.getElementById('audio-toggle');
+      const hudTips = document.getElementById('hud-tips');
+      const charCards = document.querySelectorAll('.char-card');
+
+      const howtoOverlay = document.getElementById('howto-modal-overlay');
+      const howtoOpenBtn = document.getElementById('btn-how-to-play');
+      const howtoCloseBtn = document.getElementById('btn-howto-close');
+
+      // 2. Main screen "Start Adventure" click -> Open character selection modal
+      introStartBtn.addEventListener('click', () => {
+        AUDIO.playJump();
+        charModalOverlay.classList.add('visible');
+      });
+
+      // 2b. Open "How to Play" instruction modal
+      if (howtoOpenBtn) {
+        howtoOpenBtn.addEventListener('click', () => {
+          AUDIO.playJump();
+          howtoOverlay.classList.add('visible');
+        });
+      }
+
+      // 2c. Close "How to Play" instruction modal
+      if (howtoCloseBtn) {
+        howtoCloseBtn.addEventListener('click', () => {
+          AUDIO.playJump();
+          howtoOverlay.classList.remove('visible');
+        });
+      }
+
+      // 3. Selection of character cards in the grid
+      charCards.forEach(card => {
+        card.addEventListener('click', () => {
+          AUDIO.playJump();
+          charCards.forEach(c => c.classList.remove('selected'));
+          card.classList.add('selected');
+
+          const charId = card.getAttribute('data-id');
+          GAME.selectCharacter(charId);
+        });
+      });
+
+      // 4. Character confirm button inside the modal -> Start countdown & gameplay
+      charConfirmBtn.addEventListener('click', () => {
+        AUDIO.playJump();
+        charModalOverlay.classList.remove('visible');
+        landingScreen.classList.add('hidden');
+        MEMORIES.openMissionBriefing(GAME.selectedChar);
+      });
+
+      // 5. Game Over Restart button action
+      restartBtn.addEventListener('click', () => {
+        AUDIO.playJump();
+        gameOverScreen.classList.remove('visible');
+        GAME.startCountdown();
+      });
+
+      // 6. Audio Toggle controller
+      audioToggle.addEventListener('click', (e) => {
+        e.stopPropagation(); // prevent triggering jump
+        const isMuted = AUDIO.toggleMute();
+        audioToggle.textContent = isMuted ? '🔇' : '🔊';
+      });
+
+      // 6b. Quit Game Controller
+      const quitBtn = document.getElementById('btn-quit');
+      if (quitBtn) {
+        quitBtn.addEventListener('click', (e) => {
+          e.stopPropagation(); // prevent triggering jump
+          AUDIO.playJump();
+          GAME.quitToMenu();
+        });
+      }
+
+      // 7. Hook Engine Custom Events
+      document.addEventListener('gameover', (e) => {
+        document.getElementById('go-score').textContent = e.detail.score;
+        document.getElementById('go-high').textContent = e.detail.high;
+        gameOverScreen.classList.add('visible');
+        hudTips.style.display = 'none';
+      });
+
+      document.addEventListener('showmenu', () => {
+        gameOverScreen.classList.remove('visible');
+        landingScreen.classList.remove('hidden');
+      });
+
+      document.addEventListener('showwish', () => {
+        gameOverScreen.classList.remove('visible');
+        hudTips.style.display = 'none';
+        MEMORIES.openBirthdayFinale();
+      });
+
+      document.addEventListener('showlocked', (e) => {
+        gameOverScreen.classList.remove('visible');
+        hudTips.style.display = 'none';
+        MEMORIES.openBirthdayLocked(e.detail.collected, e.detail.total);
+      });
+    });
+  </script>
+</body>
+
+</html>

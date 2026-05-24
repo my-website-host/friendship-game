@@ -1,0 +1,1065 @@
+/* 🎮 The Friendship Run — MODERN-VINTAGE PIXEL STYLE SHEET */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=VT323&display=swap');
+
+:root {
+  --font-pixel: 'VT323', monospace;
+  --font-body: 'Outfit', sans-serif;
+
+  --bg-color: #f9f6f0;
+  /* Soft off-white vintage paper */
+  --text-dark: #222222;
+  /* High contrast retro dark charcoal */
+  --text-muted: #555555;
+  --retro-primary: #ff6b9d;
+  /* Vibrant pink */
+  --retro-secondary: #f9c74f;
+  /* Retro gold */
+  --retro-accent: #43e8d8;
+  /* Retro teal */
+  --retro-border: #222222;
+  /* Double thick outlines */
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  image-rendering: pixelated;
+  /* Enforce crisp retro scaling */
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-color);
+  /* Elegant light retro grid background pattern */
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  color: var(--text-dark);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* 📺 Full Viewport Game Container */
+#app-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: #e5dfd3;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#gameCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* 🌌 Mute button in modern pixel style */
+.audio-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  background: var(--bg-color);
+  border: 4px double var(--retro-border);
+  color: var(--text-dark);
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  box-shadow: 3px 3px 0 var(--retro-border);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.audio-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--retro-border);
+}
+
+.audio-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--retro-border);
+}
+
+/* 🏠 Quit button in modern pixel style */
+.quit-btn {
+  position: absolute;
+  bottom: 25px;
+  left: 25px;
+  z-index: 100;
+  background: #ff4757;
+  /* Retro Red */
+  border: 4px double var(--retro-border);
+  color: #ffffff;
+  padding: 0 16px;
+  height: 48px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--font-pixel);
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 3px 3px 0 var(--retro-border);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.quit-btn:hover {
+  background: #ff6b81;
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--retro-border);
+}
+
+.quit-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--retro-border);
+}
+
+/* 🖼️ Landing Screen Overlay */
+#landing-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-color);
+  /* Retro diagonal grid pattern for landing page background */
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.02) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.02) 2px, transparent 2px);
+  background-size: 16px 16px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  transition: opacity 0.4s ease, visibility 0.4s;
+}
+
+#landing-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* 👑 Pixel Game Header */
+.game-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.game-title {
+  font-family: var(--font-pixel);
+  font-size: 72px;
+  line-height: 1;
+  color: var(--text-dark);
+  text-transform: uppercase;
+  letter-spacing: -2px;
+  margin-bottom: 12px;
+  text-shadow: 4px 4px 0 var(--retro-secondary);
+}
+
+.game-subtitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 📝 Catchy Centered Text Description */
+.game-description {
+  max-width: 480px;
+  text-align: center;
+  font-size: 16px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 40px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 4px double var(--retro-border);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* 🚀 Vintage Retro Buttons */
+.retro-btn {
+  font-family: var(--font-pixel);
+  background: var(--retro-secondary);
+  color: var(--text-dark);
+  border: 4px double var(--retro-border);
+  font-size: 26px;
+  font-weight: bold;
+  padding: 10px 40px;
+  cursor: pointer;
+  text-transform: uppercase;
+  box-shadow: 4px 4px 0 var(--retro-border);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.retro-btn:hover {
+  background: #fbd672;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--retro-border);
+}
+
+.retro-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--retro-border);
+}
+
+/* 👤 Character Selection Overlay Modal */
+#char-modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(34, 34, 34, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 15;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s;
+}
+
+#char-modal-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.char-modal-box {
+  background: var(--bg-color);
+  border: 6px double var(--retro-border);
+  padding: 30px;
+  width: 90%;
+  max-width: 680px;
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.15);
+  animation: popModal 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+}
+
+.char-modal-header {
+  font-family: var(--font-pixel);
+  font-size: 36px;
+  text-align: center;
+  color: var(--text-dark);
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.character-grid {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+  justify-content: center;
+}
+
+/* 🃏 Character Selection Retro Card */
+.char-card {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(5px);
+  border: 4px double var(--retro-border);
+  padding: 24px 16px;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 4px 4px 0 var(--retro-border);
+}
+
+.char-card:hover {
+  transform: translateY(-6px);
+  background: #ffffff;
+  border-color: var(--retro-primary);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 6px 12px 0 var(--retro-border);
+}
+
+.char-card.selected {
+  background: #fff4f7;
+  border-color: var(--retro-primary);
+  box-shadow:
+    6px 6px 0 var(--retro-border),
+    0 0 15px rgba(255, 107, 157, 0.25);
+  transform: translateY(-4px);
+}
+
+.char-emoji {
+  font-size: 52px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.char-card:hover .char-emoji {
+  transform: scale(1.22) rotate(4deg);
+}
+
+.char-name {
+  font-family: var(--font-pixel);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Modal confirm actions button area */
+.char-modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+/* 💀 Game Over Screen Overlay */
+#gameover-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(249, 246, 240, 0.9);
+  /* light overlay */
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s;
+}
+
+#gameover-screen.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.go-title {
+  font-family: var(--font-pixel);
+  font-size: 64px;
+  color: #ff4757;
+  margin-bottom: 15px;
+  text-shadow: 3px 3px 0 var(--text-dark);
+  text-transform: uppercase;
+}
+
+.go-stats {
+  font-size: 18px;
+  color: var(--text-dark);
+  margin-bottom: 30px;
+  text-align: center;
+  line-height: 1.6;
+  background: #ffffff;
+  padding: 15px 30px;
+  border: 4px double var(--retro-border);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.05);
+}
+
+.go-highlight {
+  color: var(--retro-primary);
+  font-weight: 700;
+  font-size: 24px;
+}
+
+/* 🕹️ HUD overlay */
+.hud-tips {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-pixel);
+  font-size: 18px;
+  color: var(--text-muted);
+  background: var(--bg-color);
+  padding: 4px 16px;
+  border: 2px solid var(--retro-border);
+  box-shadow: 2px 2px 0 var(--retro-border);
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* 🖼️ Screen 3: Retro Memory Quiz & Story Overlay Card */
+#memory-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(22, 12, 32, 0.7);
+  /* dark overlay tint */
+  backdrop-filter: blur(4px);
+  /* retro defocus blur */
+  z-index: 25;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s;
+}
+
+#memory-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.memory-card {
+  width: 90%;
+  max-width: 440px;
+  background: var(--bg-color);
+  /* Cream white background */
+  border: 6px double var(--retro-border);
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: popModal 0.28s cubic-bezier(0.175, 0.885, 0.32, 1.25);
+  transition: border-color 0.2s ease;
+}
+
+/* Dynamic emotion color boundaries */
+.memory-card.funny {
+  border-color: var(--retro-secondary);
+  /* Gold */
+}
+
+.memory-card.warm {
+  border-color: var(--retro-primary);
+  /* Pink */
+}
+
+.memory-card.dramatic {
+  border-color: var(--retro-accent);
+  /* Teal/Mint */
+}
+
+/* Header styles */
+.mc-header {
+  background: #ffffff;
+  border-bottom: 4px double var(--retro-border);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mc-emoji {
+  font-size: 28px;
+}
+
+.mc-title {
+  font-family: var(--font-pixel);
+  font-size: 22px;
+  text-transform: uppercase;
+  color: var(--text-dark);
+}
+
+/* Card body layout */
+.mc-body {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 65vh;
+  /* Responsive dynamic viewport height! */
+  overflow-y: auto;
+}
+
+.mc-story {
+  font-size: 14px;
+  color: var(--text-dark);
+  line-height: 1.5;
+  background: #ffffff;
+  padding: 12px 14px;
+  border: 2px solid var(--retro-border);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive Image Viewport */
+.mc-image-container {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  /* Standard beautiful square frame for standard photos */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 4px double var(--retro-border);
+  background: #ffffff;
+  /* Clean white canvas backing */
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.mc-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Cover crop is perfect for standard square/landscape photos */
+  image-rendering: auto;
+  /* Beautiful smooth scaling specifically for photos! */
+}
+
+/* Custom vertical framing specifically for Riya's two portrait photos (mem_3_rj & mem_18_r) */
+.mc-image-container.portrait-fit {
+  aspect-ratio: 3 / 4;
+  /* Beautiful tall vertical frame */
+  max-height: 320px;
+  /* Snug height limit to ensure text is visible without huge scrolling! */
+  margin: 0 auto 5px auto;
+  /* Centered in scrapbook style */
+}
+
+.mc-image-container.portrait-fit img {
+  object-fit: contain;
+  /* Fits full vertical height beautifully with zero cropping! */
+}
+
+.mc-question {
+  font-family: var(--font-pixel);
+  font-size: 20px;
+  color: var(--text-dark);
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+
+/* Responsive options button grids */
+.mc-options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 480px) {
+  .mc-options-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.retro-option {
+  background: #ffffff;
+  border: 2px solid var(--retro-border);
+  padding: 10px 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-dark);
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--retro-border);
+  transition: background 0.15s, transform 0.1s, box-shadow 0.1s;
+}
+
+.retro-option:hover {
+  background: #fbf9f4;
+  transform: translateY(-1px);
+}
+
+.retro-option:active {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0 var(--retro-border);
+}
+
+/* Correct/Incorrect animation states */
+.retro-option.correct {
+  background: #2ed573 !important;
+  /* Green */
+  color: white !important;
+  border-color: var(--retro-border) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.retro-option.wrong {
+  background: #ff4757 !important;
+  /* Red */
+  color: white !important;
+  border-color: var(--retro-border) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* Action feedback response box */
+.mc-reaction-box {
+  font-family: var(--font-pixel);
+  font-size: 18px;
+  color: var(--text-dark);
+  background: #ffffff;
+  padding: 8px 12px;
+  border: 2px dashed var(--retro-border);
+  text-align: center;
+  animation: popModal 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+}
+
+/* Footer layout */
+.mc-footer {
+  padding: 0 20px 18px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+#btn-mc-continue {
+  width: 100%;
+}
+
+/* Animation classes */
+@keyframes popModal {
+  0% {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 📜 Screen 4: Mission Briefing Overlay */
+#mission-briefing-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(22, 12, 32, 0.75);
+  /* Dark vintage glass */
+  backdrop-filter: blur(4px);
+  z-index: 28;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s;
+}
+
+#mission-briefing-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mission-briefing-box {
+  background: var(--bg-color);
+  border: 6px double var(--retro-border);
+  padding: 30px;
+  width: 90%;
+  max-width: 460px;
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.2);
+  text-align: center;
+  animation: popModal 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+}
+
+.briefing-header {
+  font-family: var(--font-pixel);
+  font-size: 38px;
+  color: var(--text-dark);
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 0 var(--retro-secondary);
+}
+
+.briefing-body {
+  background: #ffffff;
+  border: 2px solid var(--retro-border);
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.briefing-emoji {
+  font-size: 56px;
+  animation: bobEmoji 1.5s ease-in-out infinite alternate;
+}
+
+#briefing-text {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text-dark);
+}
+
+@keyframes bobEmoji {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  100% {
+    transform: translateY(-10px) rotate(5deg);
+  }
+}
+
+/* 🎁 Screen 5: Birthday Grand Finale Overlay */
+#birthday-finale-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(249, 246, 240, 0.95);
+  /* Sunset cream white */
+  z-index: 30;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s;
+}
+
+#birthday-finale-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.finale-box {
+  background: var(--bg-color);
+  border: 8px double var(--retro-border);
+  padding: 35px 30px;
+  width: 90%;
+  max-width: 580px;
+  box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.15);
+  text-align: center;
+  animation: popModal 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+}
+
+.finale-header {
+  font-family: var(--font-pixel);
+  font-size: 42px;
+  color: var(--retro-primary);
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 0 var(--text-dark);
+}
+
+.finale-desc {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 30px;
+}
+
+/* Single Breathing Present Selector */
+.single-gift-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 0 10px 0;
+}
+
+.gift-box {
+  max-width: 240px;
+  width: 100%;
+  background: #ffffff;
+  border: 5px double var(--retro-border);
+  padding: 30px 20px;
+  border-radius: 16px;
+  cursor: pointer;
+  box-shadow: 6px 6px 0 var(--retro-border);
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: breathingGift 2s ease-in-out infinite;
+}
+
+.gift-box:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 10px 14px 0 var(--retro-border);
+  background: #fff8f8;
+}
+
+.gift-wrap {
+  font-size: 80px;
+  line-height: 1;
+}
+
+.gift-box:hover .gift-wrap {
+  animation: shakeGift 0.35s linear infinite;
+}
+
+.gift-tag {
+  font-family: var(--font-pixel);
+  font-size: 26px;
+  color: var(--text-dark);
+  margin-top: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@keyframes breathingGift {
+  0% {
+    transform: scale(1) translateY(0);
+  }
+
+  50% {
+    transform: scale(1.05) translateY(-4px);
+  }
+
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes shakeGift {
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+
+  10% {
+    transform: translate(-1px, -2px) rotate(-1.5deg);
+  }
+
+  20% {
+    transform: translate(-3px, 0px) rotate(1.5deg);
+  }
+
+  30% {
+    transform: translate(0px, 2px) rotate(0deg);
+  }
+
+  40% {
+    transform: translate(1px, -1px) rotate(1.5deg);
+  }
+
+  50% {
+    transform: translate(-1px, 2px) rotate(-1.5deg);
+  }
+
+  60% {
+    transform: translate(-3px, 1px) rotate(0deg);
+  }
+
+  70% {
+    transform: translate(2px, 1px) rotate(-1.5deg);
+  }
+
+  80% {
+    transform: translate(-1px, -1px) rotate(1.5deg);
+  }
+
+  90% {
+    transform: translate(2px, 2px) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(1px, -2px) rotate(-1.5deg);
+  }
+}
+
+/* Part B: Birthday Card / Scrollable Letter Layout */
+.birthday-letter-container {
+  background: #ffffff;
+  border: 4px double var(--retro-border);
+  padding: 25px 20px;
+  max-height: 280px;
+  overflow-y: auto;
+  text-align: left;
+  line-height: 1.6;
+  font-size: 14px;
+  color: var(--text-dark);
+  margin-bottom: 25px;
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.05);
+}
+
+.birthday-letter-container strong {
+  color: var(--retro-primary);
+}
+
+#btn-finale-restart {
+  width: 100%;
+}
+
+/* ☄️ Floating Retro Arcade THROW Button Styling */
+.arcade-throw-btn {
+  position: absolute;
+  bottom: 25px;
+  right: 25px;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #ff4757;
+  /* Bright arcade red */
+  border: 5px double var(--retro-border);
+  color: #ffffff;
+  font-family: var(--font-pixel);
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #b33939, 0 8px 12px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  transition: transform 0.1s, box-shadow 0.1s, background-color 0.1s;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+}
+
+.arcade-throw-btn:hover {
+  background: #ff6b81;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 #b33939, 0 10px 15px rgba(0, 0, 0, 0.35);
+}
+
+.arcade-throw-btn:active {
+  background: #e22d3e;
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #b33939, 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* 👥 Landing Screen Actions Container */
+.landing-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.retro-btn.alt-btn {
+  background: var(--retro-accent);
+}
+
+.retro-btn.alt-btn:hover {
+  background: #6df1e5;
+}
+
+/* 📖 How to Play Overlay Modal */
+#howto-modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(34, 34, 34, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 18;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s;
+}
+
+#howto-modal-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.howto-modal-box {
+  background: var(--bg-color);
+  border: 6px double var(--retro-border);
+  padding: 25px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.15);
+  animation: popModal 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.howto-modal-header {
+  font-family: var(--font-pixel);
+  font-size: 34px;
+  text-align: center;
+  color: var(--text-dark);
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 0 var(--retro-secondary);
+}
+
+.howto-scroll-body {
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+/* Custom retro scrollbar */
+.howto-scroll-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.howto-scroll-body::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border: 2px solid var(--retro-border);
+}
+
+.howto-scroll-body::-webkit-scrollbar-thumb {
+  background: var(--retro-secondary);
+  border: 2px solid var(--retro-border);
+}
+
+.howto-section h3 {
+  font-family: var(--font-pixel);
+  font-size: 22px;
+  color: var(--retro-primary);
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.howto-section p {
+  font-size: 13px;
+  color: var(--text-dark);
+  line-height: 1.5;
+}
+
+.howto-items-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #ffffff;
+  padding: 10px;
+  border: 2px solid var(--retro-border);
+}
+
+.howto-item {
+  font-size: 13px;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.item-emoji {
+  font-size: 18px;
+  width: 24px;
+  text-align: center;
+}
+
+.howto-modal-actions {
+  display: flex;
+  justify-content: center;
+}
