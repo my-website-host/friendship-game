@@ -465,3 +465,196 @@ class MemoryOverlayManager {
 
 // Instantiate global memory overlay controller
 const MEMORIES = new MemoryOverlayManager();
+
+class CharacterQuizManager {
+  constructor() {
+    this.overlay = null;
+    this.card = null;
+    this.emojiEl = null;
+    this.nameEl = null;
+    this.questionEl = null;
+    this.hintEl = null;
+    this.inputEl = null;
+    this.feedbackEl = null;
+    this.changeBtn = null;
+    this.verifyBtn = null;
+
+    this.activeChar = null;
+    this.currentQuestionIdx = 0;
+    this.onSuccessCallback = null;
+
+    window.addEventListener('DOMContentLoaded', () => this.initElements());
+  }
+
+  initElements() {
+    this.overlay = document.getElementById('char-quiz-overlay');
+    if (!this.overlay) return;
+    this.card = this.overlay.querySelector('.char-quiz-box');
+    this.emojiEl = document.getElementById('quiz-emoji');
+    this.nameEl = document.getElementById('quiz-char-name');
+    this.questionEl = document.getElementById('quiz-question-text');
+    this.hintEl = document.getElementById('quiz-question-hint');
+    this.inputEl = document.getElementById('quiz-answer-input');
+    this.feedbackEl = document.getElementById('quiz-feedback');
+    this.changeBtn = document.getElementById('btn-quiz-change');
+    this.verifyBtn = document.getElementById('btn-quiz-verify');
+
+    if (this.changeBtn) {
+      this.changeBtn.addEventListener('click', () => {
+        AUDIO.playJump();
+        this.changeQuestion();
+      });
+    }
+
+    if (this.verifyBtn) {
+      this.verifyBtn.addEventListener('click', () => {
+        this.verifyAnswer();
+      });
+    }
+
+    if (this.inputEl) {
+      this.inputEl.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          this.verifyAnswer();
+        }
+      });
+    }
+  }
+
+  open(character, onSuccess) {
+    this.activeChar = character;
+    this.onSuccessCallback = onSuccess;
+    this.currentQuestionIdx = 0;
+
+    if (!this.overlay) {
+      this.initElements();
+    }
+
+    if (!this.overlay || !this.activeChar || !this.activeChar.quiz || this.activeChar.quiz.length === 0) {
+      // Fallback: if no quiz exists for this character (e.g. somehow undefined), allow bypass
+      if (onSuccess) onSuccess();
+      return;
+    }
+
+    // Populate metadata
+    if (this.emojiEl) this.emojiEl.textContent = this.activeChar.emoji;
+    if (this.nameEl) this.nameEl.textContent = this.activeChar.name;
+    
+    // Clear input & feedback
+    if (this.inputEl) {
+      this.inputEl.value = '';
+      this.inputEl.style.borderColor = 'var(--retro-border)';
+    }
+    if (this.feedbackEl) {
+      this.feedbackEl.style.display = 'none';
+    }
+
+    this.displayQuestion();
+
+    // Show overlay
+    this.overlay.style.display = 'flex';
+    this.overlay.classList.add('visible');
+    
+    // Auto-focus input
+    setTimeout(() => {
+      if (this.inputEl) this.inputEl.focus();
+    }, 50);
+  }
+
+  close() {
+    if (this.overlay) {
+      this.overlay.classList.remove('visible');
+      setTimeout(() => {
+        this.overlay.style.display = 'none';
+      }, 300);
+    }
+  }
+
+  displayQuestion() {
+    const quizData = this.activeChar.quiz[this.currentQuestionIdx];
+    if (this.questionEl) this.questionEl.textContent = quizData.question;
+    
+    if (this.hintEl) {
+      if (quizData.hint) {
+        this.hintEl.textContent = quizData.hint;
+        this.hintEl.style.display = 'block';
+      } else {
+        this.hintEl.style.display = 'none';
+      }
+    }
+
+    if (this.inputEl) {
+      this.inputEl.value = '';
+      this.inputEl.focus();
+    }
+
+    if (this.feedbackEl) {
+      this.feedbackEl.style.display = 'none';
+    }
+  }
+
+  changeQuestion() {
+    if (!this.activeChar || !this.activeChar.quiz) return;
+    this.currentQuestionIdx = (this.currentQuestionIdx + 1) % this.activeChar.quiz.length;
+    this.displayQuestion();
+  }
+
+  verifyAnswer() {
+    if (!this.activeChar || !this.activeChar.quiz) return;
+    const quizData = this.activeChar.quiz[this.currentQuestionIdx];
+    const userInput = this.inputEl ? this.inputEl.value : '';
+
+    // Normalize: convert to lowercase and remove all special symbols/punctuation/whitespace
+    const normalize = (text) => text.toLowerCase().trim().replace(/[^a-z0-9]/g, '');
+
+    const normalizedInput = normalize(userInput);
+    
+    // Check if input matches any correct normalized answers
+    const isCorrect = quizData.answers.some(ans => normalize(ans) === normalizedInput);
+
+    if (isCorrect) {
+      // Success! Play correct sound and confetti!
+      AUDIO.playCorrect();
+      
+      // Spawn some sweet correct particles from center of quiz card
+      const rect = this.card.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      MEMORIES.burstEmojiParticles('🔓', cx, cy);
+      MEMORIES.burstEmojiParticles('✨', cx, cy);
+
+      this.close();
+      
+      // Call success callback
+      if (this.onSuccessCallback) {
+        this.onSuccessCallback();
+      }
+    } else {
+      // Incorrect answer! Play buzzer/wrong sound, shake card, show error message
+      AUDIO.playWrong();
+      
+      if (this.feedbackEl) {
+        this.feedbackEl.textContent = "Access Denied: Incorrect answer. Try again!";
+        this.feedbackEl.style.display = 'block';
+      }
+
+      if (this.inputEl) {
+        this.inputEl.focus();
+        this.inputEl.select();
+      }
+
+      // Add shake class for visual feedback
+      if (this.card) {
+        this.card.classList.add('shake');
+        // Clear shake class after animation completes
+        setTimeout(() => {
+          this.card.classList.remove('shake');
+        }, 400);
+      }
+    }
+  }
+}
+
+// Instantiate global quiz manager
+const QUIZ = new CharacterQuizManager();
+

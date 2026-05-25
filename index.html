@@ -78,6 +78,37 @@
       </div>
     </div>
 
+    <!-- 🔑 Screen 2.5: Character Quiz Verification Modal -->
+    <div id="char-quiz-overlay" style="display: none;">
+      <div class="char-quiz-box">
+        <div class="quiz-header">
+          <span class="quiz-char-emoji" id="quiz-emoji">👩‍⚕️</span>
+          <h2 class="quiz-header-title">Runner Verification</h2>
+        </div>
+        <div class="quiz-body">
+          <p class="quiz-instructions">Prove that you are a true friend of <strong id="quiz-char-name">Riya</strong> to unlock this character:</p>
+          
+          <div class="quiz-question-container">
+            <div id="quiz-question-text" class="quiz-question-text">Question goes here?</div>
+            <div id="quiz-question-hint" class="quiz-question-hint" style="display: none;">Hint goes here</div>
+          </div>
+
+          <div class="quiz-input-container">
+            <input type="text" id="quiz-answer-input" class="retro-text-input" placeholder="Type your answer here..." autocomplete="off" />
+          </div>
+          
+          <div id="quiz-feedback" class="quiz-feedback-box" style="display: none;">
+            Incorrect code/answer. Try again!
+          </div>
+        </div>
+        
+        <div class="char-quiz-actions">
+          <button class="retro-btn alt-btn" id="btn-quiz-change" title="Switch to another question">Change Question 🔄</button>
+          <button class="retro-btn" id="btn-quiz-verify">Verify & Unlock 🔓</button>
+        </div>
+      </div>
+    </div>
+
     <!-- 📖 Screen 6: How to Play Overlay Modal -->
     <div id="howto-modal-overlay">
       <div class="howto-modal-box">
@@ -287,12 +318,17 @@
         });
       });
 
-      // 4. Character confirm button inside the modal -> Start countdown & gameplay
+      // 4. Character confirm button inside the modal -> Start quiz verification
       charConfirmBtn.addEventListener('click', () => {
         AUDIO.playJump();
-        charModalOverlay.classList.remove('visible');
-        landingScreen.classList.add('hidden');
-        MEMORIES.openMissionBriefing(GAME.selectedChar);
+        
+        // Open the character verification quiz card
+        QUIZ.open(GAME.selectedChar, () => {
+          // Success callback: unlock character and proceed to briefing
+          charModalOverlay.classList.remove('visible');
+          landingScreen.classList.add('hidden');
+          MEMORIES.openMissionBriefing(GAME.selectedChar);
+        });
       });
 
       // 5. Game Over Restart button action

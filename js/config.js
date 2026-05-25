@@ -29,21 +29,53 @@ const CONFIG = {
       name: "Riya",
       emoji: "👩‍⚕️",          // Doctor/Dentist Emoji
       role: "Birthday Girl",
-      description: "Fast, energetic, and completely obsessed with shared snacks."
+      description: "Fast, energetic, and completely obsessed with shared snacks.",
+      quiz: [
+        {
+          question: "What is my nickname at home?",
+          answers: ["chotu"]
+        },
+        {
+          question: "Who is my study partner at my college, always with me in clinic?",
+          answers: ["sanjay"]
+        }
+      ]
     },
     {
       id: "me",
       name: "Utsav",
       emoji: "🦊",
       role: "Chaotic Bestie",
-      description: "Double-jumps at the wrong times. Constantly planning the next wild plan."
+      description: "Double-jumps at the wrong times. Constantly planning the next wild plan.",
+      quiz: [
+        {
+          question: "How many bestfriends (male + female) do I have?",
+          answers: ["4", "four"]
+        },
+        {
+          question: "How many online friends do I have?",
+          answers: ["2", "two"]
+        }
+      ]
     },
     {
       id: "nishthi",
       name: "Nishtha",
       emoji: "🐰",
       role: "The Sensible One",
-      description: "Calculates the exact trajectory of jumps. Keeps this trio functional."
+      description: "Calculates the exact trajectory of jumps. Keeps this trio functional.",
+      quiz: [
+        {
+          question: "Which dairy milk is my favorite? Flavor basically",
+          answers: ["fruitnnut"],
+          hint: "Hint: f _ _ _ t   n   _ _ _ (starts with 'f')"
+        },
+        {
+          question: "How many people were there in my life whom I literally hated? Write their initials as answer.",
+          answers: ["kp", "pk"],
+          hint: "Hint: 2 initials, write without spaces or punctuation"
+        }
+      ]
     }
   ],
 

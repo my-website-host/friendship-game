@@ -219,8 +219,14 @@ class GameEngine {
     const briefingOverlay = document.getElementById('mission-briefing-overlay');
     if (briefingOverlay) briefingOverlay.classList.remove('visible');
 
-    const memoryOverlay = document.getElementById('memory-overlay');
+     const memoryOverlay = document.getElementById('memory-overlay');
     if (memoryOverlay) memoryOverlay.classList.remove('visible');
+
+    const quizOverlay = document.getElementById('char-quiz-overlay');
+    if (quizOverlay) {
+      quizOverlay.style.display = 'none';
+      quizOverlay.classList.remove('visible');
+    }
 
     const gameOverScreen = document.getElementById('gameover-screen');
     if (gameOverScreen) gameOverScreen.classList.remove('visible');
